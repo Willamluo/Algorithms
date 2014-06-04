@@ -1,0 +1,52 @@
+public class HashTable<Key, Value>{
+	private int N; // number of keys
+	private int M; // hashtable size
+
+	private SequentialSearchST<Key, Value>[] st;
+
+	public HashTable(){
+		this(997);
+	}
+	public HashTable(int M){
+		this.M = M;
+		st = (SequentialSearchST<Key, Value>[]) new SequentialSearchST[M];
+		for(int i = 0; i < M; i++)
+			st[i] = new SequentialSearchST<Key, Value>();
+	}
+	public int hash(Key k){
+		
+		 int hashCode = (k.hashCode() & 0X7FFFFFFF) % M;
+		// System.out.println(k + " hash " + hashCode);
+		 return hashCode;
+	}
+
+	public void put(Key k, Value v){
+		st[hash(k)].put(k, v);
+	}
+
+	public Value get(Key k){
+		return (Value)st[hash(k)].get(k);
+	}
+
+	public void checkUnivorm(){
+		for(int i = 0; i < M; i++){
+			if(i % 10 == 0)
+				System.out.println();
+			System.out.printf("%3d", st[i].size());
+
+		}
+	}
+	public static void main(String[] args){
+		HashTable<Integer, String> table = new HashTable<Integer, String>();
+		table.put(22202, "VA");
+		table.put(20037, "DC");
+		for(int i = 0; i < 10000; i++){
+			int zip = (int) (Math.random() * 10000);
+			String city = "" + (zip % 100);
+			table.put(zip, city);
+		}
+		//table.checkUnivorm();
+		System.out.println();
+
+	}
+}
